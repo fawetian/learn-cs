@@ -1,0 +1,34 @@
+---
+import MobileMenuFooter from "virtual:starlight/components/MobileMenuFooter";
+import SidebarPersister from "@astrojs/starlight/components/SidebarPersister.astro";
+import SidebarSublist from "@astrojs/starlight/components/SidebarSublist.astro";
+import { subjects } from "../../sites.config.mjs";
+
+// 左侧栏只显示「当前学科」的文章列表，跨学科跳转交给顶栏 navbar，
+// 避免两处导航重复。不在学科路径下时（如首页）显示完整侧边栏。
+const { sidebar } = Astro.locals.starlightRoute;
+type SidebarEntry = (typeof sidebar)[number];
+
+const current = subjects.find((s) =>
+  Astro.url.pathname.startsWith(`/${s.id}/`),
+);
+
+function belongsToSubject(entry: SidebarEntry, id: string): boolean {
+  if (entry.type === "link") return entry.href.startsWith(`/${id}/`);
+  return entry.entries.some((e) => belongsToSubject(e, id));
+}
+
+const filtered = current
+  ? sidebar.filter(
+      (e) => e.type === "group" && belongsToSubject(e, current.id),
+    )
+  : sidebar;
+---
+
+<SidebarPersister>
+  <SidebarSublist sublist={filtered} />
+</SidebarPersister>
+
+<div class="md:sl-hidden">
+  <MobileMenuFooter />
+</div>

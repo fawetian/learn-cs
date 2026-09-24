@@ -1,0 +1,84 @@
+---
+import config from "virtual:starlight/user-config";
+import LanguageSelect from "virtual:starlight/components/LanguageSelect";
+import Search from "virtual:starlight/components/Search";
+import SiteTitle from "virtual:starlight/components/SiteTitle";
+import SocialIcons from "virtual:starlight/components/SocialIcons";
+import ThemeSelect from "virtual:starlight/components/ThemeSelect";
+import { subjects } from "../../sites.config.mjs";
+
+const shouldRenderSearch =
+  config.pagefind ||
+  config.components.Search !== "@astrojs/starlight/components/Search.astro";
+---
+
+<div class="header">
+  <div class="title-wrapper sl-flex">
+    <SiteTitle />
+  </div>
+  <nav class="subject-nav sl-hidden md:sl-flex print:hidden" aria-label="学科导航">
+    {subjects.map((s) => <a href={`/${s.id}/`}>{s.label}</a>)}
+  </nav>
+  <div class="sl-flex print:hidden search-slot">
+    {shouldRenderSearch && <Search />}
+  </div>
+  <div class="sl-hidden md:sl-flex print:hidden right-group">
+    <div class="sl-flex social-icons">
+      <SocialIcons />
+    </div>
+    <ThemeSelect />
+    <LanguageSelect />
+  </div>
+</div>
+
+<style>
+  @layer starlight.core {
+    .header {
+      display: flex;
+      gap: var(--sl-nav-gap);
+      justify-content: space-between;
+      align-items: center;
+      height: 100%;
+    }
+
+    .title-wrapper {
+      overflow: clip;
+      padding: 0.25rem;
+      margin: -0.25rem;
+      min-width: 0;
+    }
+
+    .subject-nav {
+      gap: 1.25rem;
+      align-items: center;
+    }
+    .subject-nav a {
+      color: var(--sl-color-gray-2);
+      text-decoration: none;
+      font-size: var(--sl-text-sm);
+      white-space: nowrap;
+    }
+    .subject-nav a:hover {
+      color: var(--sl-color-white);
+    }
+
+    .right-group,
+    .social-icons {
+      gap: 1rem;
+      align-items: center;
+    }
+    .social-icons::after {
+      content: "";
+      height: 2rem;
+      border-inline-end: 1px solid var(--sl-color-gray-5);
+    }
+
+    /* 固定 flex 布局：搜索框占据剩余空间并靠右，
+       顶栏各元素位置不随页面类型（有无侧边栏/目录）变化。 */
+    .search-slot {
+      flex: 1 1 auto;
+      min-width: 0;
+      justify-content: flex-end;
+    }
+  }
+</style>

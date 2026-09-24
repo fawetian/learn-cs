@@ -1,0 +1,7 @@
+:root {
+  --sl-color-accent: #4f46e5;
+}
+
+[data-theme="dark"] {
+  --sl-color-accent: #4f46e5;
+}

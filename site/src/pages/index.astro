@@ -1,0 +1,31 @@
+---
+import StarlightPage from "@astrojs/starlight/components/StarlightPage.astro";
+import { subjects } from "../../sites.config.mjs";
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "学习导读",
+    description:
+      "计算机科学学习笔记：操作系统、分布式系统、算法、数据库、计算机网络。",
+    template: "splash",
+    hero: {
+      title: "计算机科学，\n一点点学明白。",
+      tagline:
+        "围绕操作系统、分布式系统、算法、数据库与计算机网络的学习笔记——从一个具体问题出发，写到讲清楚为止。",
+    },
+    prev: false,
+    next: false,
+  }}
+>
+  <p>按学科浏览全部笔记：</p>
+  <ul>
+    {
+      subjects.map((s) => (
+        <li>
+          <a href={`/${s.id}/`}>{s.label}</a>——{s.description}
+        </li>
+      ))
+    }
+  </ul>
+</StarlightPage>
