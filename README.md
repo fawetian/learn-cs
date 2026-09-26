@@ -16,8 +16,9 @@ _resource/ 资料 ──┼→  note/     长文 ──→  _publish/  渠道稿
 
 ```
 content/                    # 内容层：唯一事实来源，不绑任何输出形式
-├── os/                     # 领域目录：os / ds / algo / db / net
-│   ├── index.mdx           #   领域导读（网站的领域首页）
+├── os/                     # 学科目录：os / ds / algo / db / net / golang / arch
+│   ├── README.md           #   学科说明：包含内容、学习资料、学习方法（不进网站）
+│   ├── index.mdx           #   学科导读（网站的学科首页）
 │   ├── note/               #   全部文章，平铺，一篇一个 .mdx 文件
 │   ├── _asset/             #   配图素材，按 topic 归档
 │   ├── _book/              #   书籍、教材资料

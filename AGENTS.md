@@ -24,7 +24,7 @@
 ### 新增学科
 
 1. 建 `content/<学科>/` 全套子目录（`note/`、`_asset/`、`_book/`、`_mindmap/`、`_resource/`、`_deck/`、`_publish/`），空目录放 `.gitkeep`。
-2. 写 `content/<学科>/index.mdx` 导读。
+2. 写 `content/<学科>/index.mdx` 导读和 `content/<学科>/README.md`（包含内容、学习资料、学习方法、其他四节，网站 glob 已排除 README.md）。
 3. 在 `site/sites.config.mjs` 的 `subjects` 数组加一项（`id` 必须与目录名一致）——navbar、侧边栏、路由全部自动生效，内容加载无需改动（glob 收录 `content/` 全部、排除 `_` 前缀）。
 4. 在 README 目录结构里登记。
 5. 完成标准：`npm run build` 通过，`/新增学科/` 路由出现在产物中，navbar 含新学科。
