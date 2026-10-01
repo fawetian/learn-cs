@@ -4,7 +4,8 @@
 
 ## 结构与边界
 
-- `content/<学科>/`：学科目录。`index.mdx` 是学科导读；`note/` 平铺全部文章；`_` 前缀目录（`_asset/` `_book/` `_mindmap/` `_resource/` `_deck/` `_publish/`）是资料与产物，网站不收录。
+- `content/<学科>/`：学科目录。`index.mdx` 是学科导读；`note/` 放全部文章（单篇平铺为 `<topic>.mdx`，专题研究可建 `<topic>/` 子目录放系列文章）；`_` 前缀目录（`_asset/` `_book/` `_mindmap/` `_resource/` `_deck/` `_publish/`）是资料与产物，网站不收录。
+- 每个功能目录（含 `note/`）里有一份 `AGENTS.md` 说明该目录放什么、不放什么——放文件之前先看它，别把文件放错目录。
 - `site/`：Astro + Starlight 工程，自包含（自己的 `package.json`）。学科注册表在 `site/sites.config.mjs`。
 - 改动遵循最小实现原则：只动任务要求的文件，保护无关文件。
 
@@ -12,7 +13,7 @@
 
 ### 写一篇笔记
 
-1. 在 `content/<学科>/note/` 新建 `<topic>.mdx`，frontmatter 必须含 `title` 和 `description`。
+1. 在 `content/<学科>/note/` 新建 `<topic>.mdx`，frontmatter 必须含 `title` 和 `description`；如果是围绕同一主题的系列文章（专题研究），改为建 `<topic>/` 子目录并放一篇 `index.mdx` 作专题导读。
 2. 配图放 `content/<学科>/_asset/<topic>/`，文中用 `../_asset/<topic>/xxx.png` 相对路径引用。
 3. 数学公式用 `$...$` / `$$...$$`（KaTeX 已启用）。
 4. 完成标准：在 `site/` 下 `npm run build` 通过（0 errors），且新文章出现在构建产物 `dist/<学科>/note/<topic>/index.html`。
@@ -23,8 +24,8 @@
 
 ### 新增学科
 
-1. 建 `content/<学科>/` 全套子目录（`note/`、`_asset/`、`_book/`、`_mindmap/`、`_resource/`、`_deck/`、`_publish/`），空目录放 `.gitkeep`。
-2. 写 `content/<学科>/index.mdx` 导读和 `content/<学科>/README.md`（包含内容、学习资料、学习方法、其他四节，网站 glob 已排除 README.md）。
+1. 建 `content/<学科>/` 全套子目录（`note/`、`_asset/`、`_book/`、`_mindmap/`、`_resource/`、`_deck/`、`_publish/`），每个子目录放一份说明职责的 `AGENTS.md`（照抄现有学科的写法，替换学科名即可）。
+2. 写 `content/<学科>/index.mdx` 导读和 `content/<学科>/README.md`（包含内容、学习资料、学习方法、其他四节；README.md 和 AGENTS.md 都不会进网站）。
 3. 在 `site/sites.config.mjs` 的 `subjects` 数组加一项（`id` 必须与目录名一致）——navbar、侧边栏、路由全部自动生效，内容加载无需改动（glob 收录 `content/` 全部、排除 `_` 前缀）。
 4. 在 README 目录结构里登记。
 5. 完成标准：`npm run build` 通过，`/新增学科/` 路由出现在产物中，navbar 含新学科。
